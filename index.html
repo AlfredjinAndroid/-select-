@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>可编辑select标签仿搜索操作</title>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var ops = new Array();
+			$("#op option").each(function(){
+				ops.push($(this));
+			});
+			
+			$("#op").change(function(){
+				 var _val = $.trim($("#op").find("option:selected").text());
+    			 if("请选择" == _val){
+        			  $("#seval").val("");
+    			 } else {
+    			      $("#seval").val(""+_val);
+   				  }
+			});
+
+			$("#seval").bind("input propertychange",function(){
+       		  	var _val = $.trim($("#seval").val());
+    			for(var i = 0 ; i < ops.length ; i++){
+          			var op_val = ops[i].text();
+          			var op_val_str = op_val.substring(0,_val.length);
+          			if(op_val_str == _val){
+               			ops[i].show();
+          			}else{
+          				if (op_val == '') {
+          					ops[i].show();	
+          				}else{
+          					ops[i].hide();	
+          				}
+          			}
+     			}
+     			$("#seval").css("margin","0 0 0 0px");
+     			$("#seval").css("z-index","4");
+     			$("#seval").css("position","absolute");
+     			$("#op").attr("size","20");
+     			$("#op").css("z-index","3");
+     			$("#op").css("height","300px");
+     			$("#op").css("position","absolute");
+			});
+
+			$("#seval").on("blur",function(){
+				$("#op").focus();
+				$("#op").on("blur",function(){
+					$("#op").attr("size","1");
+					$("#op").css("height","30px");
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+<center>
+	<select id="op" style="width: 165px;height: 30px">
+		<option hidden="hidden"></option>
+		<option hidden="hidden"></option>
+		<option selected="selected">请选择</option>
+		<option >10</option>
+		<option >11</option>
+		<option >21</option>
+		<option >22</option>
+		<option >32</option>
+		<option >33</option>
+		<option >43</option>
+		<option >44</option>
+		<option >54</option>
+		<option >55</option>
+		<option >65</option>
+		<option >66</option>
+		<option >76</option>
+		<option >77</option>
+		<option >87</option>
+		<option >88</option>
+		<option >98</option>
+		<option >99</option>
+	</select>
+
+	<input type="text" name="输入" id="seval" placeholder="请选择" style="width: 140px;margin-left: -170px;height: 24px">
+</center>
+</body>
+</html>
